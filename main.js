@@ -13,6 +13,8 @@ function loadEventListeners(){
   FORM.addEventListener('submit', addTask);
   // Delete task event
   TASK_LIST.addEventListener('click', deleteTask);
+  // Delete all tasks event
+  CLEAR_BTN.addEventListener('click', clearTasks);
 }
 
 // Add Task Function
@@ -50,5 +52,12 @@ function deleteTask(e){
   // check if the click event happened on '.delete-item'
   if (!deleteItem) return;
   // delete the parent element of the '.delete-item'
-    TASK_LIST.removeChild(deleteItem.parentElement);
+  TASK_LIST.removeChild(deleteItem.parentElement);
+}
+
+// Clear all tasks function
+function clearTasks(){
+  while(TASK_LIST.firstChild){
+    TASK_LIST.removeChild(TASK_LIST.firstChild);
+  }
 }
