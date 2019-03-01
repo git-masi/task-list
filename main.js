@@ -66,13 +66,18 @@ function clearTasks(){
 
 // Filter tasks
 function filterTasks(e){
+  // Get the text entered into the input element to use as filter
   let filterBy = e.target.value.toLowerCase();
-
+  // for each task in the task list
   for(let item of TASK_LIST.children){
+    // check if any index of any task matches the filter
     if(item.firstChild.textContent.toLowerCase().indexOf(filterBy) != -1){
+      // if it does display the item
       item.style.display = 'block';
     } else {
+      // if not then hide the item
       item.style.display = 'none';
     } 
   }
+  // because the event is fired on keyup all elements will display if the filter = ''
 }
