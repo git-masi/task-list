@@ -15,12 +15,14 @@ function loadEventListeners(){
   TASK_LIST.addEventListener('click', deleteTask);
   // Delete all tasks event
   CLEAR_BTN.addEventListener('click', clearTasks);
+  // Filter tasks event
+  FILTER.addEventListener('keyup', filterTasks);
 }
 
 // Add Task Function
 function addTask(e){
   // prevent submit if no input exists
-  if(TASK_INPUT.value === ''){console.log('add a task')};
+  if(TASK_INPUT.value === '') return;
 
   // create li element with text content of TASK_INPUT.value
   const LI = document.createElement('li');
@@ -59,5 +61,18 @@ function deleteTask(e){
 function clearTasks(){
   while(TASK_LIST.firstChild){
     TASK_LIST.removeChild(TASK_LIST.firstChild);
+  }
+}
+
+// Filter tasks
+function filterTasks(e){
+  let filterBy = e.target.value.toLowerCase();
+
+  for(let item of TASK_LIST.children){
+    if(item.firstChild.textContent.toLowerCase().indexOf(filterBy) != -1){
+      item.style.display = 'block';
+    } else {
+      item.style.display = 'none';
+    } 
   }
 }
