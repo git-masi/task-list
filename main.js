@@ -11,6 +11,8 @@ loadEventListeners();
 function loadEventListeners(){
   // Add task event
   FORM.addEventListener('submit', addTask);
+  // Delete task event
+  TASK_LIST.addEventListener('click', deleteTask);
 }
 
 // Add Task Function
@@ -37,7 +39,16 @@ function addTask(e){
   // clear TASK_INPUT
   TASK_INPUT.value = '';
 
-  // add task to local storage
-
   e.preventDefault();
+}
+
+// Delete task function
+// Use event delegation
+function deleteTask(e){
+  // select the closest element '.delete-item' to the click event
+  let deleteItem = e.target.closest('.delete-item');
+  // check if the click event happened on '.delete-item'
+  if (!deleteItem) return;
+  // delete the parent element of the '.delete-item'
+    TASK_LIST.removeChild(deleteItem.parentElement);
 }
