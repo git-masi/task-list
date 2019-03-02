@@ -40,10 +40,29 @@ function addTask(e){
   // append li element to TASK_LIST
   TASK_LIST.appendChild(LI);
 
+  // store task in local storage
+  storeTaskLocalStorage(TASK_INPUT.value);
+
   // clear TASK_INPUT
   TASK_INPUT.value = '';
 
   e.preventDefault();
+}
+
+// store task function
+function storeTaskLocalStorage(task){
+  let tasks;
+  // check if local storage has tasks 
+  if(localStorage.getItem('tasks') === null){
+    tasks = [];
+  } else {
+    tasks = JSON.parse(localStorage.getItem('tasks'));
+  }
+  // add task to tasks
+  tasks.push(task);
+  // update local storage, must be in the form of a string
+  // in this case the key is 'tasks' and the value is the the array
+  localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
 // Delete task function
@@ -65,6 +84,7 @@ function clearTasks(){
 }
 
 // Filter tasks
+// because the event is fired on keyup all elements will display if the filter = ''
 function filterTasks(e){
   // Get the text entered into the input element to use as filter
   let filterBy = e.target.value.toLowerCase();
@@ -79,5 +99,4 @@ function filterTasks(e){
       item.style.display = 'none';
     } 
   }
-  // because the event is fired on keyup all elements will display if the filter = ''
 }
