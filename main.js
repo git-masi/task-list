@@ -17,6 +17,28 @@ function loadEventListeners(){
   CLEAR_BTN.addEventListener('click', clearTasks);
   // Filter tasks event
   FILTER.addEventListener('keyup', filterTasks);
+  // Add tasks to the list from local storage on page load
+  window.addEventListener('load', onLoadAddTasks);
+}
+
+// Page load add tasks function
+function onLoadAddTasks(){
+  let tasks;
+  if(localStorage.getItem('tasks') === null){
+    return
+  } else {
+    tasks = JSON.parse(localStorage.getItem('tasks'));
+  }
+  tasks.forEach(function(task){
+    const LI = document.createElement('li');
+    LI.textContent = task;
+    LI.classList.add('collection-item');
+    const LINK = document.createElement('a');
+    LINK.classList.add('delete-item','secondary-content');
+    LINK.innerHTML = '<i class="small material-icons">remove_circle_outline</i>';
+    LI.appendChild(LINK);
+    TASK_LIST.appendChild(LI);
+  });
 }
 
 // Add Task Function
