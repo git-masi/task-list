@@ -74,6 +74,18 @@ function deleteTask(e){
   if (!deleteItem) return;
   // delete the parent element of the '.delete-item'
   TASK_LIST.removeChild(deleteItem.parentElement);
+
+  // get 'tasks' from local storage as array
+  let tasks = JSON.parse(localStorage.getItem('tasks'));
+  // create new array, add items back in except the deleteItem
+  let newTasks = tasks.filter(taskItem => taskItem != deleteItem.parentElement.firstChild.textContent);
+  // if newTasks is an empty array delete 'tasks' from local storage
+  if(newTasks.length == 0){
+    localStorage.removeItem('tasks');
+    // else update local storage with the new task list
+  } else {
+    localStorage.setItem('tasks', JSON.stringify(newTasks));
+  }
 }
 
 // Clear all tasks function
