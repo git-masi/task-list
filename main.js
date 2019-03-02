@@ -96,22 +96,46 @@ function storeTaskLocalStorage(task){
 function deleteTask(e){
   // select the closest element '.delete-item' to the click event
   let deleteItem = e.target.closest('.delete-item');
+  // get index of deleteItem parent
   // check if the click event happened on '.delete-item'
   if (!deleteItem) return;
+
+  // old code, technically works, butsee new code bellow
+  // ===================================================
   // delete the parent element of the '.delete-item'
-  TASK_LIST.removeChild(deleteItem.parentElement);
+  // TASK_LIST.removeChild(deleteItem.parentElement);
+  // ===================================================
+  
+  // This new code gets the index of the deleted item (technically the index of the parent) and deletes it
+  // The benefit comes when there are multiple list items with the same text content
+  // By passing the index we can delete the element that was clicked on and we can delete that index from local storage
+  let indexOfDeleteItem = Array.from(deleteItem.parentElement.parentElement.childNodes).indexOf(deleteItem.parentElement);
+  TASK_LIST.removeChild(TASK_LIST.children[indexOfDeleteItem]);
+
 
   // get 'tasks' from local storage as array
   let tasks = JSON.parse(localStorage.getItem('tasks'));
-  // create new array, add items back in except the deleteItem
-  let newTasks = tasks.filter(taskItem => taskItem != deleteItem.parentElement.firstChild.textContent);
-  // if newTasks is an empty array delete 'tasks' from local storage
-  if(newTasks.length == 0){
+  
+  tasks.splice(indexOfDeleteItem,1);
+  if(tasks.length == 0){
     localStorage.removeItem('tasks');
-    // else update local storage with the new task list
   } else {
-    localStorage.setItem('tasks', JSON.stringify(newTasks));
+    localStorage.setItem('tasks', JSON.stringify(tasks));
   }
+
+  // This old code checked the text contents of the the element to be deleted and compared it to the text of local storage
+  // This had the effect of deleting multiple local storage items with the same contents
+  // ===================================================================================
+  // create new array, add items back in except the deleteItem
+  // let newTasks = tasks.filter(taskItem => taskItem != deleteItem.parentElement.firstChild.textContent);
+  // check if the new list is empty and if so clear local storage
+  // if(newTasks.length == 0){
+  //   localStorage.removeItem('tasks');
+  //   // else update local storage with the new task list
+  // } else {
+  //   localStorage.setItem('tasks', JSON.stringify(newTasks));
+  // }
+  // ===================================================================================
 }
 
 
