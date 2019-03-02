@@ -21,6 +21,7 @@ function loadEventListeners(){
   window.addEventListener('load', onLoadAddTasks);
 }
 
+
 // Page load add tasks function
 function onLoadAddTasks(){
   let tasks;
@@ -40,6 +41,7 @@ function onLoadAddTasks(){
     TASK_LIST.appendChild(LI);
   });
 }
+
 
 // Add Task Function
 function addTask(e){
@@ -71,6 +73,7 @@ function addTask(e){
   e.preventDefault();
 }
 
+
 // store task function
 function storeTaskLocalStorage(task){
   let tasks;
@@ -86,6 +89,7 @@ function storeTaskLocalStorage(task){
   // in this case the key is 'tasks' and the value is the the array
   localStorage.setItem('tasks', JSON.stringify(tasks));
 }
+
 
 // Delete task function
 // Use event delegation
@@ -110,14 +114,19 @@ function deleteTask(e){
   }
 }
 
+
 // Clear all tasks function
 function clearTasks(){
   while(TASK_LIST.firstChild){
     TASK_LIST.removeChild(TASK_LIST.firstChild);
   }
-  // remove all tasks from local storage
-  localStorage.removeItem('tasks');
+  // removing the tasks key has the effect we want and would be useful if there were multiple key|value pairs
+  // localStorage.removeItem('tasks');
+  
+  // the clear method will clear all local storage
+  localStorage.clear();
 }
+
 
 // Filter tasks
 // because the event is fired on keyup all elements will display if the filter = ''
